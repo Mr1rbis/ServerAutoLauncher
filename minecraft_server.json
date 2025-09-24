@@ -1,0 +1,20 @@
+{
+    "core": {
+        "paper": {
+            "1.21.1":{
+                "download_url": "https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/131/downloads/paper-1.21.1-131.jar"
+            },
+            "1.21.8":{
+                "download_url": "https://fill-data.papermc.io/v1/objects/8de7c52c3b02403503d16fac58003f1efef7dd7a0256786843927fa92ee57f1e/paper-1.21.8-60.jar"
+            }
+        },
+        "Purpur": {
+            "1.21.1":{
+                "download_url": "https://api.purpurmc.org/v2/purpur/1.21.1/2329/download"
+            },
+            "1.21.8":{
+                "download_url": "https://api.purpurmc.org/v2/purpur/1.21.8/2497/download"
+            }
+        }
+    }
+}
