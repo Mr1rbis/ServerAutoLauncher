@@ -17,7 +17,7 @@ echo -e "╚═════╝░╚══════╝╚═╝░░╚═�
 while true; do
     JDK_URL="https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.tar.gz"
     JDK_FOLDER="jdk-21"
-    SERVER_URL="https://api.purpurmc.org/v2/purpur/1.21.1/2329/download"
+    SERVER_URL="https://api.purpurmc.org/v2/purpur/1.21.8/2497/download"
     SERVER_FILE="Purpur.jar"
 
     # Проверка наличия JDK
@@ -55,7 +55,18 @@ while true; do
         echo "[INFO] Сервер успешно скачан: $SERVER_FILE."
     fi
 
-    # Запуск сервера
+    # Проверка наличия файла с аргументами Java
+    JAVA_ARGS_FILE="java_args.txt"
+    if [ ! -f "$JAVA_ARGS_FILE" ]; then
+        echo "[INFO] Файл с аргументами Java не найден. Создаю файл с аргументами по умолчанию..."
+        echo "-Xms1000M -Xmx3000M" > "$JAVA_ARGS_FILE"
+        echo "[INFO] Файл $JAVA_ARGS_FILE создан с аргументами по умолчанию."
+    fi
+
+    # Чтение аргументов Java из файла
+    JAVA_ARGS=$(cat "$JAVA_ARGS_FILE")
+
+    # Запуск сервера с использованием аргументов из файла
     echo "[INFO] Запускаю сервер с использованием локальной Java..."
 
     echo -e "██████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░"
@@ -64,8 +75,9 @@ while true; do
     echo -e "██╔═══╝░██║░░░██║██╔══██╗██╔═══╝░██║░░░██║██╔══██╗"
     echo -e "██║░░░░░╚██████╔╝██║░░██║██║░░░░░╚██████╔╝██║░░██║"
     echo -e "╚═╝░░░░░░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░░╚═════╝░╚═╝░░╚═╝"
+    echo -e "$JAVA_CMD $JAVA_ARGS -jar $SERVER_FILE nogui"
     
-    "$JAVA_CMD" -Xms1000M -Xmx3000M -jar $SERVER_FILE nogui
+    "$JAVA_CMD" $JAVA_ARGS -jar "$SERVER_FILE" nogui
 
     # Проверка наличия папки world
     if [ -d "world" ]; then

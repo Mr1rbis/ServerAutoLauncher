@@ -18,7 +18,7 @@ echo ╚═════╝░╚══════╝╚═╝░░╚═╝░
 :file
 set JDK_URL=https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.zip
 set JDK_FOLDER=jdk-21
-set SERVER_URL=https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/131/downloads/paper-1.21.1-131.jar
+set SERVER_URL=https://fill-data.papermc.io/v1/objects/8de7c52c3b02403503d16fac58003f1efef7dd7a0256786843927fa92ee57f1e/paper-1.21.8-60.jar
 set SERVER_FILE=Paper.jar
 
 
@@ -58,7 +58,18 @@ if not exist "%SERVER_FILE%" (
     echo [INFO] Сервер успешно скачан: %SERVER_FILE%.
 )
 
-:: Запуск сервера
+:: Проверка наличия файла с аргументами Java
+set JAVA_ARGS_FILE=java_args.txt
+if not exist "%JAVA_ARGS_FILE%" (
+    echo [INFO] Файл с аргументами Java не найден. Создаю файл с аргументами по умолчанию...
+    echo -Xms1000M -Xmx3000M > "%JAVA_ARGS_FILE%"
+    echo [INFO] Файл %JAVA_ARGS_FILE% создан с аргументами по умолчанию.
+)
+
+:: Чтение аргументов Java из файла
+set /p JAVA_ARGS=<%JAVA_ARGS_FILE%
+
+:: Запуск сервера с использованием аргументов из файла
 echo [INFO] Запускаю сервер с использованием локальной Java...
 
 echo ██████╗░░█████╗░██████╗░███████╗██████╗░
@@ -67,7 +78,9 @@ echo ██████╔╝███████║██████╔╝█
 echo ██╔═══╝░██╔══██║██╔═══╝░██╔══╝░░██╔══██╗
 echo ██║░░░░░██║░░██║██║░░░░░███████╗██║░░██║
 echo ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░░░░╚══════╝╚═╝░░╚═╝
-"%JAVA_CMD%" -Xms1000M -Xmx3000M -jar %SERVER_FILE% nogui
+echo "%JAVA_CMD%" %JAVA_ARGS% -jar %SERVER_FILE% nogui
+
+"%JAVA_CMD%" %JAVA_ARGS% -jar %SERVER_FILE% nogui
 
 
 if not exist "world\" (
